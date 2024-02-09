@@ -15,10 +15,6 @@ const Oportunidades = sequelize.define('Oportunidades', {
   TotalAmount: {
     type: DataTypes.INTEGER
   },
-  fkUser: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE

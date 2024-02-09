@@ -1,5 +1,6 @@
 const { where } = require('sequelize');
 const Oportunidades = require('../models/Oportunidades');
+const OportunidadesUsuarios = require('../models/OportunidadesUsuarios');
 
 const obtenerOportunidades = async () =>{
     try{
@@ -23,23 +24,27 @@ const buscarOportunidad = async (_id) => {
     }
 }
 
-const obtenerInversionesUsuario = async (_id) =>{
-    try{
-        const inversion = await Oportunidades.findAll({id : _id})
-        return inversion
-    }
-    catch(error){
-        console.log('Error Fetching inversiones :', error)
+const deleteInversionesUsuario = async (_id) => {
+    try {
+        const inversion = await OportunidadesUsuarios.findByPk(_id);
+        if (inversion) {
+            await inversion.destroy();
+            console.log('Inversión eliminada exitosamente');
+            return inversion;
+        } else {
+            console.log('La inversión no fue encontrada');
+            return null;
+        }
+    } catch (error) {
+        console.log('Error al eliminar la inversión:', error);
+        throw error;
     }
 }
 
-const retirarInversion = async (_id, _amount) => {
 
-}
-
-const descontarDineroInversion = async(_id, _amount, _fkUser) =>{
+const descontarDineroInversion = async(_id, _amount) =>{
     try{
-        const descontarDineroInversion = await Oportunidades.update({ TotalAmount : _amount, fkUser : _fkUser},  {where : {Id : _id}})
+        const descontarDineroInversion = await Oportunidades.update({ TotalAmount : _amount},  {where : {Id : _id}})
         return descontarDineroInversion;
     }
     catch(error){
@@ -62,11 +67,28 @@ const buscarInversionesUsuario = async (_id) =>{
         throw error; 
     }
 }
+
+const inversionRealizada = async (_name, _amount, _id) =>{
+    try{
+        const inversion =await OportunidadesUsuarios.create({
+            nameUsuario :  _name,
+            Inversion :  _amount,
+            fkOportunidadUsuario : _id
+        });
+        return inversion
+    
+    }
+    catch(error){
+        console.error('Error fetching inversion:', error.message);
+        throw error; 
+    }
+}
 module.exports = {
     obtenerOportunidades,
     buscarOportunidad,
-    obtenerInversionesUsuario,
-    retirarInversion,
+    deleteInversionesUsuario,
     descontarDineroInversion,
-    buscarInversionesUsuario
+    buscarInversionesUsuario,
+    inversionRealizada 
 }
+

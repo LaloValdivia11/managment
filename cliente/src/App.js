@@ -9,7 +9,7 @@ function App() {
       <Routes> {/* Wrap Route components with Routes */}
         <Route path="/login" element={<Login />} />  
         <Route path="/home" element={<Oportunidad />} /> 
-        <Route path="/registrar" element={<Registro/>} /> 
+        <Route path="/registro" element={<Registro/>} /> 
         
       </Routes>
     </Router>

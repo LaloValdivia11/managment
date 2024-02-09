@@ -38,10 +38,9 @@ const MostrasOportunidades = () => {
 
         setOportunidades(oportunidadesCombinadas);
 
-        // Inicializar el estado de las cantidades con un valor predeterminado para cada oportunidad
         const initialCantidades = {};
         oportunidadesCombinadas.forEach(oportunidad => {
-          initialCantidades[oportunidad.id] = 1; // Inicializar cada cantidad con 1
+          initialCantidades[oportunidad.id] = 1; 
         });
         setCantidades(initialCantidades);
 
@@ -130,7 +129,7 @@ const MostrasOportunidades = () => {
                 type="number"
                 value={cantidades[oportunidad.id] || 1}
                 onChange={(event) => handleChangeCantidad(oportunidad.id, event)}
-                style={{ marginLeft: '0.5em', width: '50px' }} // Estilos para el input
+                style={{ marginLeft: '0.5em', width: '50px' }}
               />
             </li>
           ))}
