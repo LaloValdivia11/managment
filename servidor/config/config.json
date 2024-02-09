@@ -1,0 +1,23 @@
+{
+    "development": {
+      "username": "lalo",
+      "password": "123456",
+      "database": "investment",
+      "host": "172.21.0.2",
+      "dialect": "postgres"
+    },
+    "test": {
+      "username": "lalo",
+      "password": "123456",
+      "database": "investment",
+      "host": "172.21.0.2",
+      "dialect": "postgres"
+    },
+    "production": {
+      "username": "lalo",
+      "password": "123456",
+      "database": "investment",
+      "host": "172.21.0.2",
+      "dialect": "postgres"
+    }
+  }

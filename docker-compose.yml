@@ -1,0 +1,42 @@
+version: "3.1"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    restart: always
+    environment:
+      - POSTGRES_USER=lalo
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=investment
+    ports:
+      - "5432:5432"
+  managment-server:
+    build:
+      context: sourcefile/servidor
+    container_name: managment-server
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      - PORT=8080
+    working_dir: /servidor
+    volumes:
+      - ./servidor:/servidor
+      - /node_modules
+      - ./logs/servidor/error.log:/app/error.log
+      - ./path/to/pipe:/hostpipe
+  managment-cliente:
+    build: sourcefile/cliente
+    container_name: managment-cliente
+    working_dir: /cliente
+    volumes:
+      - ./cliente:/cliente
+    restart: always  
+    ports:
+      - "3000:3000"
+    depends_on:
+        - managment-server
