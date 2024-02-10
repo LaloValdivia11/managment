@@ -1,10 +1,7 @@
 const { DataTypes, Sequelize } = require('sequelize');
 const config = require('../config/config.json');
-
-// Asegúrate de importar la instancia de Sequelize ya configurada
 const sequelize = new Sequelize(config.development);
 
-// Definición del modelo NotificacionesUser
 const NotificacionesUsarios = sequelize.define('NotificacionesUsuarios', {
   id: {
     allowNull: false,

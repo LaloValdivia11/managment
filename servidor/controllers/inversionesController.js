@@ -1,6 +1,7 @@
 const { where } = require('sequelize');
 const Oportunidades = require('../models/Oportunidades');
 const OportunidadesUsuarios = require('../models/OportunidadesUsuarios');
+const Users = require('../models/User');
 
 const obtenerOportunidades = async () =>{
     try{
@@ -27,6 +28,7 @@ const buscarOportunidad = async (_id) => {
 const deleteInversionesUsuario = async (_id) => {
     try {
         const inversion = await OportunidadesUsuarios.findByPk(_id);
+       
         if (inversion) {
             await inversion.destroy();
             console.log('Inversión eliminada exitosamente');
@@ -52,28 +54,14 @@ const descontarDineroInversion = async(_id, _amount) =>{
     }
 }
 
-const buscarInversionesUsuario = async (_id) =>{ 
-    try{
 
-        const inversiones = await Oportunidades.findAll({
-            where: {
-              fkUser: _id,
-            },
-          });
-       return  inversiones
-    }
-    catch(error){
-        console.error('Error fetching opportunities:', error.message);
-        throw error; 
-    }
-}
-
-const inversionRealizada = async (_name, _amount, _id) =>{
+const inversionRealizada = async (_name, _amount, _id, _fkUser) =>{
     try{
         const inversion =await OportunidadesUsuarios.create({
             nameUsuario :  _name,
             Inversion :  _amount,
-            fkOportunidadUsuario : _id
+            fkOportunidadUsuario : _id,
+            fkUser : _fkUser
         });
         return inversion
     
@@ -83,12 +71,32 @@ const inversionRealizada = async (_name, _amount, _id) =>{
         throw error; 
     }
 }
+const obtenerInversiones = async (_id) =>{
+    try{
+        const inversion =await OportunidadesUsuarios.findAll();    
+        return inversion
+
+    }catch(error){
+        console.error('Error fetching inversiones:', error.message);
+    }
+}
+const regresarDinero = async (_id, _dinero) =>{
+    try{
+        const dinero = await Users.update({ Amount : _dinero},  {where : {id : _id}})
+
+        return dinero
+    
+    }catch(error){
+        console.error('Error fetching dinero:', error.message);
+    }
+}
 module.exports = {
     obtenerOportunidades,
     buscarOportunidad,
     deleteInversionesUsuario,
     descontarDineroInversion,
-    buscarInversionesUsuario,
-    inversionRealizada 
+    inversionRealizada,
+    obtenerInversiones,
+    regresarDinero
 }
 

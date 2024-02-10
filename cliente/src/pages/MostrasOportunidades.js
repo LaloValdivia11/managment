@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
-
+import { Link } from 'react-router-dom';
 import '../css/Oportunidad.css'; 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -16,7 +16,7 @@ const MostrasOportunidades = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(envJSON.CATD_SERVER + "/api/oportunidad/obtener/inversiones", {
+        const response = await fetch(envJSON.CATD_SERVER + "/api/oportunidad/obtener/oportunidades", {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -48,18 +48,9 @@ const MostrasOportunidades = () => {
         console.error(error);
       }
     };
-    const mostrarOportunidadesUsuario = async () =>{
-      const response = await axios.get(envJSON.CATD_SERVER + '/api/oportunidad/obtener/inversiones/usuario/2');
-
-      if(response.status == 200){
-       
-        setOportunidadesUsuario(response.data);
-      }
-        
-    }
 
     fetchData();
-    mostrarOportunidadesUsuario();
+    
   }, []);
 
   const handleAgregarOportunidad = async (id) => {
@@ -112,6 +103,13 @@ const MostrasOportunidades = () => {
 
   return (
     <div>
+      <nav>
+        <ul className="navigation-menu">
+          <li><Link to="/notificacion">Notificación</Link></li>
+          <li><Link to="/notificaciones">Notificaciones</Link></li>
+          <li><Link to="/inversiones">Inversiones</Link></li>
+        </ul>
+      </nav>
       <div className="container">
         <h1>Lista de Oportunidades</h1>
         <ul className="opportunity-list">
@@ -121,15 +119,15 @@ const MostrasOportunidades = () => {
               <span>{oportunidad.id}</span>
               <span>Nombre:</span>
               <span>{oportunidad.nombre}</span>
-              <span>Inversion</span>
-              <span style={{color: "green"}}> $ {oportunidad.amount}</span>
-
-              <button onClick={() => handleAgregarOportunidad(oportunidad.id)} style={{ fontSize: '0.7em', padding: '0.1em 0.3em' , width: '50px' }}>Agregar</button>
+              <span>Inversión:</span>
+              <span style={{ color: "green" }}> $ {oportunidad.amount}</span>
+  
+              <button onClick={() => handleAgregarOportunidad(oportunidad.id)} className="add-button">Agregar</button>
               <input
                 type="number"
                 value={cantidades[oportunidad.id] || 1}
                 onChange={(event) => handleChangeCantidad(oportunidad.id, event)}
-                style={{ marginLeft: '0.5em', width: '50px' }}
+                className="quantity-input"
               />
             </li>
           ))}
@@ -137,6 +135,7 @@ const MostrasOportunidades = () => {
       </div>
     </div>
   );
+  
   
 }
 

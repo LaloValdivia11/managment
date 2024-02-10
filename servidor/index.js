@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors =  require('cors');
 const dotenv = require('dotenv').config();
+const Docker = require('dockerode');
 const PORT = process.env.DB_PORT
+const fs = require('fs');
 
 const auth = require('./routes/auth');
 const user =require('./routes/user');
@@ -14,7 +16,9 @@ app.use(bodyParser.json({
     extended : true,
     limit: '5mb'
 }))
+const docker = new Docker();
 
+const containerName = 'postgres-db';
 
 app.use(cors());
 
@@ -31,3 +35,19 @@ app.use((req, res, next) =>{
     })
 });
 
+/***
+docker.getContainer(containerName).inspect((err, data) => { 
+    if (err) {
+        console.error('Error al obtener la información del contenedor:', err);
+        return;
+    }
+    
+    const pgIPAddress = data.NetworkSettings.IPAddress;
+
+    // Actualizar el archivo .env
+    const envData = `PG_HOST=${pgIPAddress}\n`;
+    fs.writeFileSync('.env', envData);
+
+    console.log('Dirección IP de PostgreSQL actualizada en el archivo .env:', pgIPAddress);
+});
+*/

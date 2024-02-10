@@ -45,7 +45,7 @@ Users.beforeCreate(async (user) => {
 });
 
 
-/****
+
 sequelize.sync({ force: true }).then(async () => {
     
     const newOportunidad1 = await Users.create({
@@ -61,7 +61,7 @@ sequelize.sync({ force: true }).then(async () => {
     const user = await Users.findAll();
     console.log(user);
 }) 
-*/
+
 
 module.exports = Users;
 

@@ -1,16 +1,18 @@
 const express = require('express');
 const app = express.Router();
-const { obtenerOportunidades, descontarDineroInversion ,buscarOportunidad, deleteInversionesUsuario, retirarInversion, buscarInversionesUsuario, inversionRealizada} = require('../controllers/inversionesController.js');
-const { notificarInversion } = require('../controllers/notificacionesController');
+const { obtenerOportunidades, descontarDineroInversion ,buscarOportunidad, deleteInversionesUsuario, retirarInversion, buscarInversionesUsuario, inversionRealizada, obtenerInversiones, regresarDinero} = require('../controllers/inversionesController.js');
+const { notificarInversion, buscarNotificaciones, obtenerNotificaciones } = require('../controllers/notificacionesController');
 const { deductMoney, informacionUsuario } = require('../controllers/registroUsersController');
 const passport = require('passport');
 const config = require('../config/config.json');
 const { Sequelize } = require('sequelize');
 
-app.get('/obtener/inversiones', async (req, res) => {
+app.get('/inversiones/:id', async (req, res) => {
     try {
-        const obtenerOportunidad = await obtenerOportunidades();
+        const userId = req.params.id;
+        const obtenerOportunidad = await obtenerInversiones(userId);
 
+        console.log(obtenerOportunidad);
         res.status(200).send({
             messsage: "Se ha obtenido la informacion correctamente",
             data: obtenerOportunidad
@@ -41,10 +43,9 @@ app.post('/realizar/inversion', async (req, res) => {
             var descontarAmount = await deductMoney(fkUser, updateMoneyUser);
             let updateMoneyInversion = totalAmountInversion - amount;
             var descontarInversion = await descontarDineroInversion(id, updateMoneyInversion);
-            var agregarInversion = await inversionRealizada(name, amount, id); 
+            var agregarInversion = await inversionRealizada(name, amount, id, fkUser); 
             var notificacion = await notificarInversion(fkUser, name, amount);
      
-
         }
 
         res.status(200).send({
@@ -60,13 +61,17 @@ app.post('/realizar/inversion', async (req, res) => {
 
 })
 
-app.delete('/retirar/inversion/:id/:inversion', async (req, res) => {
+app.delete('/retirar/inversion/:id', async (req, res) => {
     try {
         const userId = req.params.id;
-        const inversion = req.params.inversion;
 
         const inversionesUsuario = await deleteInversionesUsuario(userId);
-        
+
+        if(inversionesUsuario){
+            var dineroUser = inversionesUsuario.Inversion
+            const regresarDineroUsuario = await regresarDinero(userId, dineroUser);
+        }
+
         res.status(200).send({
             message: 'Se ha eliminado correctamente'
         })
@@ -77,13 +82,13 @@ app.delete('/retirar/inversion/:id/:inversion', async (req, res) => {
     }
 })
 
-app.get('/obtener/inversiones/usuario/:id', async (req, res) =>{
+app.get('/obtener/notificaciones/:id', async (req, res) =>{
     try{
         const userId = req.params.id;
-        const buscarInversiones = await buscarInversionesUsuario(userId);
+        const notificaciones = await buscarNotificaciones(userId);
 
         res.status(200).send({
-            data : buscarInversiones
+            data : notificaciones
         })
     
     }
@@ -92,5 +97,31 @@ app.get('/obtener/inversiones/usuario/:id', async (req, res) =>{
     }
 })
 
+app.get('/obtener/all/notificacion', async (req, res) => {
+    try{
+        const notificaciones = await obtenerNotificaciones();
 
+        res.status(200).send({
+            data : notificaciones 
+        })
+    }  
+    catch(error){
+        console.log('Error Internal Server', error);
+    }
+})
+
+app.get('/obtener/oportunidades', async (req, res) =>{
+    try{
+        const oportunidades = await obtenerOportunidades();
+
+        res.status(200).send({
+            message : 'Oportunidades traidas coreectamente',
+            data : oportunidades
+        })
+
+    }  
+    catch(error){
+        console.log('Error Internal Server', error);
+    }
+})
 module.exports = app

@@ -25,7 +25,7 @@ const Oportunidades = sequelize.define('Oportunidades', {
   }
 });
 
-/***
+
 sequelize.sync({ force: true }).then(async () => {
   // Create a new user
   const newOportunidad1 = await Oportunidades.create({
@@ -76,6 +76,6 @@ sequelize.sync({ force: true }).then(async () => {
   });
 
 });
-*/
+
   
 module.exports = Oportunidades;
