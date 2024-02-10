@@ -13,15 +13,16 @@ app.get('/inversiones/:id', async (req, res) => {
         const userId = req.params.id;
         const obtenerOportunidad = await obtenerInversiones(userId);
 
-        console.log(obtenerOportunidad);
+        // en la data se obtiene las inversiones que ha hecho el usuario
         res.status(200).send({
-            messsage: "Se ha obtenido la informacion correctamente",
+            mensaje: "Se ha obtenido la informacion correctamente",
             data: obtenerOportunidad
         })
     }
     catch (error) {
         console.log('Error Internal Server :', error)
     }
+
 })
 /**
  * busca si tiene dinero para poder invertir, en caso de que si
@@ -37,6 +38,7 @@ app.post('/realizar/inversion', async (req, res) => {
         const totalAmountUser = dataUser.Amount;
         const totalAmountInversion = realizarInversion.TotalAmount;
 
+        // si no tiene dinero suficiente le mandara este mensaje
         if (amount > totalAmountUser ||amount < 0) {
             res.status(201).send({
                 "message": "Monto de inversion no valido"
@@ -52,6 +54,7 @@ app.post('/realizar/inversion', async (req, res) => {
      
         }
 
+        //se obtiene la notificacion creada cuando se hace la inversion correctamente
         res.status(200).send({
             message: "Se ha hecho la inversion correctamen",
             data :{
@@ -91,7 +94,9 @@ app.get('/obtener/notificaciones/:id', async (req, res) =>{
         const userId = req.params.id;
         const notificaciones = await buscarNotificaciones(userId);
 
+        // regresa la data de las notificaciones
         res.status(200).send({
+            mensaje : 'Se ha obtenido las notificaciones correctamente',
             data : notificaciones
         })
     
@@ -106,7 +111,9 @@ app.get('/obtener/all/notificacion', async (req, res) => {
     try{
         const notificaciones = await obtenerNotificaciones();
 
+        // se manda un mensaje de salida y la data de notificacicones correspondientes
         res.status(200).send({
+            mensaje : "se ha obtenido las notificaciones correctamente",
             data : notificaciones 
         })
     }  
@@ -119,6 +126,7 @@ app.get('/obtener/oportunidades', async (req, res) =>{
     try{
         const oportunidades = await obtenerOportunidades();
 
+        // se obtiene la data de oportunidades 
         res.status(200).send({
             message : 'Oportunidades traidas coreectamente',
             data : oportunidades

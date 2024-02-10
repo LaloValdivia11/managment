@@ -1,0 +1,2 @@
+instala docker
+para ejecutar las imagenes : docker compose up 
