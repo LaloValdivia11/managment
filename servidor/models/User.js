@@ -44,24 +44,61 @@ Users.beforeCreate(async (user) => {
     user.Amount = 1000; 
 });
 
-
-
-sequelize.sync({ force: true }).then(async () => {
-    
-    const newOportunidad1 = await Users.create({
-      Name : "Eduardo",
-      Age : 23,
-      LastName : "Valdivia",
-      Address : 'Plutarco Elias calles',
-      Email : 'eduardo11@gmail.com',
-      Password : '123456'
-    });
-    
-
+/**
+ * descomentar esta linea de codigo en caso de quen o tenga usuarios 
+ */
+/**** 
+sequelize.sync({ force: true }).then(async () => {    
+    const usuario1 = await Users.create({
+        Name: "Eduardo",
+        Age: 23,
+        LastName: "Valdivia",
+        Address: 'Plutarco Elias calles',
+        Email: 'eduardo11@gmail.com',
+        Password: '123456'
+      });
+      
+      const usuario2 = await Users.create({
+        Name: "Juan",
+        Age: 25,
+        LastName: "Perez",
+        Address: 'Avenida Principal',
+        Email: 'juan.perez@gmail.com',
+        Password: 'password123'
+      });
+      
+      const usuario3 = await Users.create({
+        Name: "Maria",
+        Age: 28,
+        LastName: "Lopez",
+        Address: 'Calle Rosas',
+        Email: 'maria.lopez@gmail.com',
+        Password: 'securepass'
+      });
+      
+      const usuario4 = await Users.create({
+        Name: "Carlos",
+        Age: 30,
+        LastName: "Gomez",
+        Address: 'Calle Sol',
+        Email: 'carlos.gomez@gmail.com',
+        Password: 'letmein'
+      });
+      
+      const usuario5 = await Users.create({
+        Name: "Ana",
+        Age: 22,
+        LastName: "Martinez",
+        Address: 'Avenida Libertad',
+        Email: 'ana.martinez@gmail.com',
+        Password: 'pass123'
+      });
+      
     const user = await Users.findAll();
     console.log(user);
 }) 
 
+*/
 
 module.exports = Users;
 

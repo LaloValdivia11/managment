@@ -50,7 +50,7 @@ const MostrasOportunidades = () => {
   return (
     <div>
       <div className="container">
-        <h1>Notificacion todos los usuarios</h1>
+        <h1>Notificaciones user</h1>
         <ul className="opportunity-list">
           {notificaciones.map((oportunidad, index) => (
             <li key={index} className="opportunity-item">

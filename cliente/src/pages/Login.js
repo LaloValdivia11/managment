@@ -11,8 +11,6 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Aquí podrías agregar la lógica para enviar los datos del formulario a tu backend
-    console.log('Email:', email);
-    console.log('Password:', password);
 
     const response = await fetch(envJSON.CATD_SERVER + '/api/auth/login',{
       method: 'POST',
@@ -27,7 +25,6 @@ const LoginForm = () => {
     const text = await response.text();
     const json = JSON.parse(text)
     if(response.status === 200){
-      console.log(response.status);
       localStorage.setItem('token', json.token)
       navigate('/home');
     }

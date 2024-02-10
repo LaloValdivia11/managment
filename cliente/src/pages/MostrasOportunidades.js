@@ -99,6 +99,9 @@ const MostrasOportunidades = () => {
     }));
   };
 
+  // la ruta notificacion es para poder ver la notificacion del usuario 
+  //la ruta notificacion es para poder ver todas las rutas del usuario
+  // la ruta inversiones es para poder ver tus inversiones y poder retirar tu inversion
   
 
   return (
@@ -107,7 +110,7 @@ const MostrasOportunidades = () => {
         <ul className="navigation-menu">
           <li><Link to="/notificacion">Notificación</Link></li>
           <li><Link to="/notificaciones">Notificaciones</Link></li>
-          <li><Link to="/inversiones">Inversiones</Link></li>
+          <li><Link to="/inversiones">Inversion</Link></li>
         </ul>
       </nav>
       <div className="container">

@@ -7,6 +7,7 @@ const passport = require('passport');
 const config = require('../config/config.json');
 const { Sequelize } = require('sequelize');
 
+//obtiene todas sus inversiones que ha realizado el usuario
 app.get('/inversiones/:id', async (req, res) => {
     try {
         const userId = req.params.id;
@@ -22,7 +23,10 @@ app.get('/inversiones/:id', async (req, res) => {
         console.log('Error Internal Server :', error)
     }
 })
-
+/**
+ * busca si tiene dinero para poder invertir, en caso de que si
+ * le descuenta dinero, le descuenta dinero a la inversion,  y le notifica la inversion
+ */
 app.post('/realizar/inversion', async (req, res) => {
     try {
         const { id, amount, fkUser } = req.body
@@ -61,10 +65,10 @@ app.post('/realizar/inversion', async (req, res) => {
 
 })
 
+// elmina la inversion del usuario y le regresa su dinero
 app.delete('/retirar/inversion/:id', async (req, res) => {
     try {
         const userId = req.params.id;
-
         const inversionesUsuario = await deleteInversionesUsuario(userId);
 
         if(inversionesUsuario){
@@ -81,7 +85,7 @@ app.delete('/retirar/inversion/:id', async (req, res) => {
         console.log('Error Internal Server', error);
     }
 })
-
+// obtiene todas las notificacion que tenga el usuario
 app.get('/obtener/notificaciones/:id', async (req, res) =>{
     try{
         const userId = req.params.id;
@@ -97,6 +101,7 @@ app.get('/obtener/notificaciones/:id', async (req, res) =>{
     }
 })
 
+// obtiene todas notificaciones creadas de todos los usuarios
 app.get('/obtener/all/notificacion', async (req, res) => {
     try{
         const notificaciones = await obtenerNotificaciones();
@@ -109,7 +114,7 @@ app.get('/obtener/all/notificacion', async (req, res) => {
         console.log('Error Internal Server', error);
     }
 })
-
+// obtiene todas las oportunidades para invertir
 app.get('/obtener/oportunidades', async (req, res) =>{
     try{
         const oportunidades = await obtenerOportunidades();

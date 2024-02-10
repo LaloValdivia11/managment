@@ -4,11 +4,11 @@ const { registroUser } = require('../controllers/registroUsersController');
 
 app.post('/registrar/usuario', async (req, res) =>{
     try{
-        const {name, age, lastName, address, email, password} = req.body;
-        const registrarUser = registroUser(name, age, lastName, address, email, password);
+        const {Name, Age, LastName, Address, Email, Password} = req.body;
+        const registrarUser = registroUser(Name, Age, LastName, Address, Email, Password);
         return res.status(200).send({
             message : 'Se ha registrado el usuario correctamente',
-            registrarUser
+            data : registrarUser
         })
     }
     catch(error){
